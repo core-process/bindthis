@@ -17,13 +17,13 @@ export default function bindThis(...args) {
   if(  args.length === 1
     && typeof args[0] === 'function'
   ) {
-    return bindClassMethods(...args);
+    return bindClass(...args);
   }
   else
   if(  args.length === 1
     && typeof args[0] === 'object'
   ) {
-    return bindObjectMethods(...args);
+    return bindObject(...args);
   }
   else
   if(   args.length === 3
@@ -38,13 +38,19 @@ export default function bindThis(...args) {
   }
 }
 
-function bindClassMethods(target) {
+function bindClass(target) {
+  if(typeof target !== 'function') {
+    throw new Error('invalid parameters');
+  }
   // bind methods on prototype object
-  bindObjectMethods(target.prototype);
+  bindObject(target.prototype);
   return target;
 }
 
-function bindObjectMethods(target) {
+function bindObject(target) {
+  if(typeof target !== 'object') {
+    throw new Error('invalid parameters');
+  }
   // retrieve all keys
   let keys;
   if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
@@ -75,6 +81,12 @@ function bindObjectMethods(target) {
 }
 
 function bindMethod(target, key, descriptor) {
+  if(   typeof target !== 'object'
+    || (typeof key !== 'string' && !(key instanceof Symbol))
+    ||  typeof descriptor !== 'object'
+  ) {
+    throw new Error('invalid parameters');
+  }
   // validate value
   let fn = descriptor.value;
   if (typeof fn !== 'function') {
