@@ -73,7 +73,7 @@ function bindMethod(object, property, descriptor) {
       }
 
       // Return unbound, if object is not prototype of this
-      if(object.isPrototypeOf(this)) {
+      if(!object.isPrototypeOf(this)) {
         return value;
       }
 
