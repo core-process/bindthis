@@ -12,8 +12,10 @@ function bindObject(object) {
 
   // get property descriptors
   const descriptors = properties.reduce(
-    (res, descr) =>
-      (res[descr] = Object.getOwnPropertyDescriptor(object, descr)),
+    (result, descriptor) => {
+      result[descriptor] = Object.getOwnPropertyDescriptor(object, descriptor);
+      return result;
+    },
     { }
   );
 
