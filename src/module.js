@@ -1,132 +1,117 @@
-/**
- * @copyright 2015, Andrey Popp <8mayday@gmail.com>
- * @copyright 2017, Niklas Salmoukas <niklas@salmoukas.com>
- *
- * The decorator may be used on classes or methods
- * ```
- * @bindThis
- * class FullBound {}
- *
- * class PartBound {
- *   @bindThis
- *   method () {}
- * }
- * ```
- */
-export default function bindThis(...args) {
+
+function bindObject(object) {
+  if(typeof object !== 'object') {
+    throw new Error('invalid parameters');
+  }
+
+  // get property names
+  const properties = Object.getOwnPropertyNames(object);
+  if(Object.getOwnPropertySymbols) {
+    properties.push(...Object.getOwnPropertySymbols(object));
+  }
+
+  // get property descriptors
+  const descriptors = properties.map(
+    descriptor => Object.getOwnPropertyDescriptor(object, descriptor)
+  );
+
+  // apply bind mechanism to properties
+  for (let i = 0, l = properties.length; i < l; i++) {
+    const property = properties[i];
+    const descriptor = descriptors[property];
+
+    // apply to functions only (skip constructor)
+    if (typeof descriptor.value !== 'function' || property === 'constructor') {
+      continue;
+    }
+
+    // apply method binding
+    Object.defineProperty(
+      object,
+      property,
+      bindMethod(object, property, descriptor)
+    );
+  }
+
+  // done
+  return object;
+}
+
+function bindClass(class_) {
+  if(typeof class_ !== 'function') {
+    throw new Error('invalid parameters');
+  }
+
+  // apply outbinding
+  bindObject(class_.prototype);
+  return class_;
+}
+
+function bindMethod(object, property, descriptor) {
+  if(   typeof object !== 'object'
+    || (typeof property !== 'string' && !(property instanceof Symbol))
+    ||  typeof descriptor !== 'object'
+  ) {
+    throw new Error('invalid parameters');
+  }
+
+  // storages
+  let value = descriptor.value;
+  let bound = new WeakMap();
+
+  return {
+    configurable: descriptor.configurable,
+    enumerable: descriptor.enumerable,
+    writable: descriptor.writable,
+    get() {
+      // do not bind non-function values
+      if(typeof value !== 'function') {
+        return value;
+      }
+
+      // Return unbound, if object is not prototype of this
+      if(object.isPrototypeOf(this)) {
+        return value;
+      }
+
+      // bind function
+      if(!bound.has(this)) {
+        const b = value.bind(this);
+        b.unbound = value;
+        bound.set(this, b);
+      }
+
+      // return bound function
+      return bound.get(this);
+    },
+    set(newValue) => {
+      // set new value and clear bound map
+      value = newValue;
+      bound = new WeakMap();
+      return newValue;
+    }
+  };
+}
+
+export default function autobind(...args) {
   if(  args.length === 1
-    && typeof args[0] === 'function'
+   && typeof args[0] === 'function'
   ) {
     return bindClass(...args);
   }
   else
   if(  args.length === 1
-    && typeof args[0] === 'object'
+   && typeof args[0] === 'object'
   ) {
     return bindObject(...args);
   }
   else
   if(   args.length === 3
-    &&  typeof args[0] === 'object'
-    && (typeof args[1] === 'string' || args[1] instanceof Symbol)
-    &&  typeof args[2] === 'object'
+   &&  typeof args[0] === 'object'
+   && (typeof args[1] === 'string' || args[1] instanceof Symbol)
+   &&  typeof args[2] === 'object'
   ) {
     return bindMethod(...args);
   }
-  else {
-    throw new Error('invalid parameters');
-  }
-}
-
-function bindClass(target) {
-  if(typeof target !== 'function') {
-    throw new Error('invalid parameters');
-  }
-  // bind methods on prototype object
-  bindObject(target.prototype);
-  return target;
-}
-
-function bindObject(target) {
-  if(typeof target !== 'object') {
-    throw new Error('invalid parameters');
-  }
-  // retrieve all keys
-  let keys;
-  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
-    keys = Reflect.ownKeys(target);
-  } else {
-    keys = Object.getOwnPropertyNames(target);
-    // use symbols if support is provided
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      keys = keys.concat(Object.getOwnPropertySymbols(target));
-    }
-  }
-  // apply function binding
-  keys.forEach(key => {
-    // Ignore constructor
-    if (key === 'constructor') {
-      return;
-    }
-    // bind function
-    let descriptor = Object.getOwnPropertyDescriptor(target, key);
-    if (typeof descriptor.value === 'function') {
-      Object.defineProperty(
-        target, key,
-        bindMethod(target, key, descriptor)
-      );
-    }
-  });
-  return target;
-}
-
-function bindMethod(target, key, descriptor) {
-  if(   typeof target !== 'object'
-    || (typeof key !== 'string' && !(key instanceof Symbol))
-    ||  typeof descriptor !== 'object'
-  ) {
-    throw new Error('invalid parameters');
-  }
-  // validate value
-  let fn = descriptor.value;
-  if (typeof fn !== 'function') {
-    throw new Error(`@bindThis decorator can only be applied to methods not: ${typeof fn}`);
-  }
-  // in IE11 calling Object.defineProperty has a side-effect of evaluating the
-  // getter for the property which is being replaced. This causes infinite
-  // recursion and an "Out of stack space" error.
-  let definingProperty = false;
-  // generate new descriptor
-  return {
-    configurable: true,
-    enumerable: true,
-    get() {
-      // bind function and return if memoization is not possible
-      let boundFn = fn.bind(this);
-      if (definingProperty || this === target || this.hasOwnProperty(key)) {
-        return boundFn;
-      }
-      // memoize bound function and return
-      definingProperty = true;
-      Object.defineProperty(this, key, {
-        value: boundFn,
-        configurable: true,
-        enumerable: true,
-        writable: true
-      });
-      definingProperty = false;
-      return boundFn;
-    },
-    set(value) {
-      // override property
-      definingProperty = true;
-      Object.defineProperty(this, key, {
-        value: value,
-        configurable: true,
-        enumerable: true,
-        writable: true
-      });
-      definingProperty = false;
-    }
-  };
+  throw new Error('invalid parameters');
 }
