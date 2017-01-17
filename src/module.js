@@ -66,7 +66,6 @@ function bindMethod(object, property, descriptor) {
   return {
     configurable: descriptor.configurable,
     enumerable: descriptor.enumerable,
-    writable: descriptor.writable,
     get() {
       // do not bind non-function values
       if(typeof value !== 'function') {
