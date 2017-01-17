@@ -84,7 +84,7 @@ function bindMethod(object, property, descriptor) {
       // return bound function
       return bound.get(this);
     },
-    set(newValue) => {
+    set(newValue) {
       // set new value and clear bound map
       value = newValue;
       bound = new WeakMap();
