@@ -11,8 +11,10 @@ function bindObject(object) {
   }
 
   // get property descriptors
-  const descriptors = properties.map(
-    descriptor => Object.getOwnPropertyDescriptor(object, descriptor)
+  const descriptors = properties.reduce(
+    (res, descr) =>
+      (res[descr] = Object.getOwnPropertyDescriptor(object, descr)),
+    { }
   );
 
   // apply bind mechanism to properties
