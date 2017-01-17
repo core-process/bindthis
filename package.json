@@ -1,6 +1,6 @@
 {
   "name": "bindthis",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Binds this to members of classes and objects. Can be used as decorator.",
   "main": "build/module.js",
   "scripts": {
