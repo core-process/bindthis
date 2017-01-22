@@ -39,12 +39,12 @@ yarn add babel-plugin-transform-decorators-legacy --dev
 
 Add the previously installed Babel plugin `transform-decorators-legacy` to your `.babelrc`, e.g. like this:
 
-``json
+```json
 {
   "presets": [ "es2015", "stage-0", "react" ],
   "plugins": [ "transform-runtime", "transform-decorators-legacy" ]
 }
-``
+```
 
 ## Usage
 
