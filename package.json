@@ -1,7 +1,7 @@
 {
   "name": "bindthis",
   "version": "1.0.10",
-  "description": "Binds this to members of classes and objects. Can be used as decorator.",
+  "description": "Binds 'this' to methods of objects on-the-fly. Can be used as a decorator.",
   "main": "build/module.js",
   "scripts": {
     "build": "babel src --out-dir build --source-maps --copy-files",
