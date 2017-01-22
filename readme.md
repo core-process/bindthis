@@ -35,7 +35,7 @@ yarn add bindthis
 yarn add babel-plugin-transform-decorators-legacy --dev
 ```
 
-**Note:** The implementation of the decorator transformation is currently on hold as the syntax is not final. If you would like to use this project with Babel 6, you should use [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy) which implement Babel 5 decorator transformation for Babel 6.
+**Note:** The implementation of the decorator transformation is currently on hold as the syntax is not final. If you would like to use this project with Babel 6, you should use the Babel plugin [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy) which implement Babel 5 decorator transformation for Babel 6.
 
 ## Usage
 
