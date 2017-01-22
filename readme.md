@@ -14,7 +14,7 @@ A class or method decorator which binds methods to the instance, so `this` is al
 <div onClick={ this.onClick }>...</div>
 ```
 
-There are alternatives available, but from my point of view `bindthis` is better in handling all edge cases correctly. Furthermore, the code is much easier to read and to understand. But please, form your opinion!
+There are alternatives available, but from my point of view `bindthis` is better in handling all edge cases correctly. Furthermore, the code is much easier to read and to understand. But please, form your own opinion!
 
 * [jayphelps/core-decorators.js#autobind](https://github.com/jayphelps/core-decorators.js#autobind)
 * [andreypopp/autobind-decorator](https://github.com/andreypopp/autobind-decorator)
