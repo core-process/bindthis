@@ -1,6 +1,6 @@
 {
   "name": "bindthis",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "description": "Binds 'this' to methods of objects on-the-fly. Can be used as a decorator.",
   "main": "build/module.js",
   "scripts": {
