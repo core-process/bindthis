@@ -37,6 +37,15 @@ yarn add babel-plugin-transform-decorators-legacy --dev
 
 **Note:** The implementation of the decorator transformation is currently on hold as the syntax is not final. If you would like to use this project with Babel 6, you should use the Babel plugin [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy) which implement Babel 5 decorator transformation for Babel 6.
 
+Add the previously installed Babel plugin `transform-decorators-legacy` to your `.babelrc`, e.g. like this:
+
+``json
+{
+  "presets": [ "es2015", "stage-0", "react" ],
+  "plugins": [ "transform-runtime", "transform-decorators-legacy" ]
+}
+``
+
 ## Usage
 
 `bindthis` can be used as class and as method decorator.
