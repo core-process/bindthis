@@ -46,7 +46,7 @@ yarn add babel-plugin-transform-decorators-legacy --dev
 Attach the decorator to the method you would like to bind to `this`. An example is worth a thousand words.
 
 ```js
-import bindthis from 'bindthis'
+import bindthis from 'bindthis';
 
 class Component {
   constructor(value) {
@@ -69,7 +69,7 @@ method(); // returns 42
 Easily bind `this` to all methods of a class by attaching the decorator to the class itself.
 
 ```js
-import bindthis from 'bindthis'
+import bindthis from 'bindthis';
 
 @bindthis
 class Component {
