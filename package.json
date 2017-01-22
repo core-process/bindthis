@@ -13,7 +13,7 @@
     "url": "git+https://github.com/core-process/bindthis.git"
   },
   "author": "Niklas Salmoukas <niklas@salmoukas.com>",
-  "license": "SEE LICENSE IN license.md",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/core-process/bindthis/issues"
   },
