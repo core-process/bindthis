@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/core-process/bindthis.git"
+    "url": "git+https://github.com/coreprocess/bindthis.git"
   },
   "author": "Niklas Salmoukas <niklas@salmoukas.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/core-process/bindthis/issues"
+    "url": "https://github.com/coreprocess/bindthis/issues"
   },
-  "homepage": "https://github.com/core-process/bindthis#readme",
+  "homepage": "https://github.com/coreprocess/bindthis#readme",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
